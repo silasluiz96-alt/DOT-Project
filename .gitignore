@@ -19,3 +19,7 @@ env/
 # Índices FAISS gerados em runtime
 *.faiss
 *.index
+
+# Arquivos temporários de extração e testes
+corpus_temp.json
+docs/Teste_en_*.png
