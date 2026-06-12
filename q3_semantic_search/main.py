@@ -22,13 +22,13 @@ Stack:
   - deep-translator: traducao automatica ingles -> portugues (requer internet)
 """
 
-import numpy as np
-import faiss
-from sentence_transformers import SentenceTransformer
+import numpy as np                          # manipulacao de arrays numericos
+import faiss                                # busca por similaridade vetorial
+from sentence_transformers import SentenceTransformer  # modelo de embeddings
 from langdetect import detect, LangDetectException
 from deep_translator import GoogleTranslator
 
-from documents import carregar_documentos
+from documents import carregar_documentos   # carrega e processa os PDFs do corpus
 
 # Modelo multilingual — entende portugues, ingles e mais de 50 outros idiomas
 # Tamanho: ~420MB, baixado automaticamente na primeira execucao
@@ -167,9 +167,11 @@ def main():
     while True:
         pergunta = input("\nPergunta: ").strip()
 
+      # ignora linha vazia — aguarda nova entrada
         if not pergunta:
             continue
 
+      # encerra o programa se o usuario digitar 'sair'
         if pergunta.lower() == "sair":
             print("\nEncerrando. Ate logo!")
             break
