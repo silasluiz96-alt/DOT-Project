@@ -6,7 +6,8 @@ Este arquivo e responsavel por duas tarefas:
   1. Ler os PDFs e extrair o texto de cada pagina
   2. Dividir o texto em paragrafos para que a busca seja mais precisa
 """
-
+# expressoes regulares para limpar e dividir o texto
+# manipulacao de caminhos de arquivo
 import logging
 import pdfplumber          # le PDFs de coluna unica (artigos em portugues)
 import fitz                # PyMuPDF — le PDFs com layout de multiplas colunas (artigos em ingles)
