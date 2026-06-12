@@ -35,6 +35,12 @@ pip install -r requirements.txt
 python main.py
 ```
 
+## Evidências
+
+Os documentos de evidência de cada questão estão na pasta [`docs/`](docs/):
+- [`docs/evidencias_q1.pdf`](docs/evidencias_q1.pdf) — Q1: API de Biblioteca Virtual
+- [`docs/evidencias_q2.pdf`](docs/evidencias_q2.pdf) — Q2: Chatbot com IA Generativa
+
 ## Requisitos gerais
 - Python 3.10+
 - Cada questão possui seu próprio `requirements.txt`
