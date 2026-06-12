@@ -2,6 +2,10 @@
 
 Chatbot especialista em programação Python, desenvolvido com **LangChain** e **GPT-4** da OpenAI.
 
+## Evidências
+
+📄 [Documento de evidências — evidencias_q2.pdf](../docs/evidencias_q2.pdf)
+
 ## Como rodar
 
 ### 1. Instale as dependências
