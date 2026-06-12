@@ -34,6 +34,6 @@ main          ← protegido, nunca recebe push direto
 - Use `.env.example` como modelo para configurar localmente
 
 ## Status
-- [ ] Q1 — API de Biblioteca Virtual
-- [ ] Q2 — Chatbot com IA Generativa
-- [ ] Q3 — Busca Semântica com Embeddings
+- [x] Q1 — API de Biblioteca Virtual (concluída e mergeada)
+- [x] Q2 — Chatbot com IA Generativa (concluída e mergeada)
+- [ ] Q3 — Busca Semântica com Embeddings (em desenvolvimento)
