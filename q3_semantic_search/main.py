@@ -167,11 +167,11 @@ def main():
     while True:
         pergunta = input("\nPergunta: ").strip()
 
-      # ignora linha vazia — aguarda nova entrada
+        # ignora linha vazia — aguarda nova entrada
         if not pergunta:
             continue
 
-      # encerra o programa se o usuario digitar 'sair'
+        # encerra o programa se o usuario digitar 'sair'
         if pergunta.lower() == "sair":
             print("\nEncerrando. Ate logo!")
             break

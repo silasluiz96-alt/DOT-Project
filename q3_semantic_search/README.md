@@ -15,7 +15,7 @@ usando **Sentence Transformers** para gerar embeddings e **FAISS** para busca ef
 > e o sistema encontra os pontos mais próximos a ela.
 
 1. Os 5 PDFs são lidos e divididos em trechos de ~500 caracteres
-2. Cada trecho é convertido em um vetor de números (embedding) pelo modelo `all-MiniLM-L6-v2`
+2. Cada trecho é convertido em um vetor de números (embedding) pelo modelo `paraphrase-multilingual-mpnet-base-v2`
 3. O FAISS indexa todos esses vetores para busca ultrarrápida
 4. A pergunta do usuário também vira um embedding
 5. O sistema retorna os 3 trechos mais semanticamente similares
@@ -39,7 +39,7 @@ cd q3_semantic_search
 pip install -r requirements.txt
 ```
 
-> Na primeira execução, o modelo `all-MiniLM-L6-v2` (~90MB) é baixado automaticamente.
+> Na primeira execução, o modelo `paraphrase-multilingual-mpnet-base-v2` (~420MB) é baixado automaticamente. O modelo é multilíngue — entende português, inglês e mais de 50 idiomas.
 
 ### 2. Execute o sistema
 
