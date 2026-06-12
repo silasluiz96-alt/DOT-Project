@@ -1,20 +1,27 @@
 """
 Corpus de documentos academicos para busca semantica.
-Textos extraidos de 5 artigos cientificos reais via pdfplumber.
+Textos extraidos de 5 artigos cientificos reais via pdfplumber e PyMuPDF.
+
+Este arquivo e responsavel por duas tarefas:
+  1. Ler os PDFs e extrair o texto de cada pagina
+  2. Dividir o texto em paragrafos para que a busca seja mais precisa
 """
 
 import logging
-import pdfplumber
-import fitz  # pymupdf — melhor para PDFs com layout de duas colunas
+import pdfplumber          # le PDFs de coluna unica (artigos em portugues)
+import fitz                # PyMuPDF — le PDFs com layout de multiplas colunas (artigos em ingles)
 import re
 import os
 
-# Suprimir avisos de PDF com CropBox faltando (cosmético, não afeta a leitura)
+# Silencia avisos internos do pdfplumber sobre PDFs sem CropBox
+# (problema cosmético do arquivo, nao afeta a leitura)
 logging.getLogger("pdfminer").setLevel(logging.ERROR)
 
-# Caminhos dos PDFs (relativos ao diretorio do projeto)
+# Caminho base: pasta onde este arquivo esta salvo
 _BASE = os.path.dirname(os.path.abspath(__file__))
 
+# Mapa de todos os artigos do corpus com seus metadados
+# Cada artigo virou um "documento" que o sistema vai aprender a buscar
 FONTES = {
     "inovacao_aberta": {
         "titulo": "Inovacao aberta nas estrategias competitivas das empresas brasileiras",
@@ -50,18 +57,30 @@ FONTES = {
 
 
 def _extrair_com_pymupdf(caminho_pdf: str, max_paginas: int = 10) -> str:
-    """Usa pymupdf para PDFs com layout de multiplas colunas — preserva espacos corretamente."""
+    """
+    Extrai texto usando PyMuPDF (biblioteca fitz).
+
+    Usado para PDFs com layout de duas colunas (artigos academicos internacionais),
+    onde o pdfplumber juntaria palavras de colunas diferentes sem espaco entre elas.
+    O PyMuPDF le cada coluna separadamente e preserva os espacos corretamente.
+    """
     doc = fitz.open(caminho_pdf)
     paginas = []
     for i in range(min(max_paginas, len(doc))):
         t = doc[i].get_text()
         if t and t.strip():
             paginas.append(t.strip())
+    # Cada pagina e separada por linha dupla para o chunking reconhece-las
     return "\n\n".join(paginas)
 
 
 def _extrair_texto(caminho_pdf: str, max_paginas: int = 10) -> str:
-    """Le um PDF pagina por pagina e retorna o texto completo."""
+    """
+    Extrai texto usando pdfplumber.
+
+    Usado para PDFs de coluna unica (artigos em portugues).
+    Cada pagina e lida individualmente e unida com separador de paragrafo.
+    """
     with pdfplumber.open(caminho_pdf) as pdf:
         paginas = []
         for page in pdf.pages[:max_paginas]:
@@ -73,25 +92,34 @@ def _extrair_texto(caminho_pdf: str, max_paginas: int = 10) -> str:
 
 def _dividir_em_paragrafos(texto: str, min_chars: int = 200, max_chars: int = 1200) -> list[str]:
     """
-    Divide o texto em paragrafos naturais (quebras de linha dupla).
-    Paragrafos muito curtos sao unidos ao seguinte.
-    Paragrafos muito longos sao divididos no meio de forma limpa.
+    Divide o texto em paragrafos naturais para melhorar a qualidade da busca.
+
+    Por que dividir em paragrafos e nao em pedacos fixos de caracteres?
+    Porque um paragrafo tem uma ideia completa — o modelo de embedding consegue
+    entender melhor o significado de um paragrafo do que de um pedaco cortado no meio.
+
+    Regras aplicadas:
+      - Paragrafos muito curtos (< min_chars) sao unidos ao seguinte
+      - Paragrafos muito longos (> max_chars) sao cortados sem quebrar palavras
+      - Pedacos menores que min_chars sao descartados (geralmente cabecalhos ou rodapes)
     """
-    # Separar por linha dupla (fim de paragrafo natural no PDF)
+    # Separar o texto nas quebras duplas de linha (fim de paragrafo natural)
     blocos = re.split(r"\n{2,}", texto)
 
     paragrafos = []
-    buffer = ""
+    buffer = ""  # acumula blocos curtos ate atingir o tamanho minimo
 
     for bloco in blocos:
+        # Normalizar espacos internos do bloco
         bloco = re.sub(r"\s+", " ", bloco).strip()
         if not bloco:
             continue
 
+        # Adicionar bloco ao buffer
         buffer = (buffer + " " + bloco).strip() if buffer else bloco
 
         if len(buffer) >= min_chars:
-            # Se ficou grande demais, divide sem cortar palavras
+            # Se passou do tamanho maximo, cortar sem quebrar palavras
             while len(buffer) > max_chars:
                 corte = buffer.rfind(" ", 0, max_chars)
                 if corte == -1:
@@ -101,6 +129,7 @@ def _dividir_em_paragrafos(texto: str, min_chars: int = 200, max_chars: int = 12
             paragrafos.append(buffer)
             buffer = ""
 
+    # Salvar o que sobrou no buffer (ultimo paragrafo do documento)
     if buffer and len(buffer) >= min_chars:
         paragrafos.append(buffer)
 
@@ -109,22 +138,32 @@ def _dividir_em_paragrafos(texto: str, min_chars: int = 200, max_chars: int = 12
 
 def carregar_documentos() -> tuple[list[str], list[dict]]:
     """
-    Carrega todos os PDFs, divide em paragrafos e retorna:
-    - lista de textos (um por paragrafo)
-    - lista de metadados (titulo, autores, publicacao de cada paragrafo)
+    Funcao principal deste arquivo.
+
+    Le todos os PDFs do corpus, divide em paragrafos e retorna duas listas paralelas:
+      - textos: cada elemento e um paragrafo de um artigo
+      - metadados: cada elemento e um dicionario com titulo, autores e publicacao
+
+    As duas listas tem o mesmo tamanho — o indice i em textos corresponde
+    ao mesmo indice i em metadados. Isso permite saber de qual artigo
+    veio cada paragrafo retornado pela busca.
     """
     textos = []
     metadados = []
 
     for chave, info in FONTES.items():
         print(f"  Carregando: {info['titulo'][:60]}...")
-        # PDFs em ingles com layout multi-coluna — pymupdf preserva espacos e acentos corretamente
+
+        # PDFs em ingles com layout de multiplas colunas precisam do PyMuPDF
+        # para preservar os espacos entre palavras corretamente
         if chave in ("digital_transformation", "machine_failure"):
             texto = _extrair_com_pymupdf(info["arquivo"])
         else:
             texto = _extrair_texto(info["arquivo"])
+
         paragrafos = _dividir_em_paragrafos(texto)
 
+        # Cada paragrafo recebe uma copia dos metadados do seu artigo de origem
         for paragrafo in paragrafos:
             textos.append(paragrafo)
             metadados.append({
