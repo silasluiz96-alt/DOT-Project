@@ -22,9 +22,11 @@ Stack:
 
 import numpy as np
 import faiss
-from sentence_transformers import SentenceTransformer
-
-from documents import carregar_documentos
+# modelo de embeddings
+from sentence_transformers import SentenceTransformer 
+ 
+# carrega e processa os PDFs do corpus
+from documents import carregar_documentos 
 
 # Modelo multilingual — entende portugues, ingles e mais de 50 outros idiomas
 # Tamanho: ~420MB, baixado automaticamente na primeira execucao
@@ -118,9 +120,11 @@ def main():
     while True:
         pergunta = input("\nPergunta: ").strip()
 
+      # ignora linha vazia — aguarda nova entrada
         if not pergunta:
             continue
 
+      # encerra o programa se o usuario digitar 'sair'
         if pergunta.lower() == "sair":
             print("\nEncerrando. Ate logo!")
             break
