@@ -1,0 +1,21 @@
+# Variáveis de ambiente — NUNCA commitar
+.env
+
+# Banco de dados gerado em runtime
+*.db
+*.sqlite3
+
+# Cache do Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Ambientes virtuais
+venv/
+.venv/
+env/
+
+# Índices FAISS gerados em runtime
+*.faiss
+*.index
