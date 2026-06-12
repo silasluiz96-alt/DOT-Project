@@ -1,0 +1,5 @@
+sentence-transformers==3.4.1
+faiss-cpu==1.12.0
+pdfplumber==0.11.6
+pymupdf==1.25.5
+numpy==2.2.3
