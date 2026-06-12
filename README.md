@@ -40,6 +40,7 @@ python main.py
 Os documentos de evidência de cada questão estão na pasta [`docs/`](docs/):
 - [`docs/evidencias_q1.pdf`](docs/evidencias_q1.pdf) — Q1: API de Biblioteca Virtual
 - [`docs/evidencias_q2.pdf`](docs/evidencias_q2.pdf) — Q2: Chatbot com IA Generativa
+- [`docs/evidencias_q3.docx`](docs/evidencias_q3.docx) — Q3: Busca Semântica com Embeddings
 
 ## Requisitos gerais
 - Python 3.10+
