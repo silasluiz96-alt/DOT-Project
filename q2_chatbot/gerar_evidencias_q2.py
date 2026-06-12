@@ -530,13 +530,114 @@ story.append(caixa_destaque(
     bg=VERDE_CLARO, fg=VERDE))
 story.append(Spacer(1, 14))
 
-# ─── SEÇÃO 6 — ENCERRAMENTO ───────────────────────────────────────────────────
-story.append(cabecalho_secao("6. Encerramento da Sessao e Conclusao"))
+# ─── SEÇÃO 6 — TESTES NO CODESPACE ──────────────────────────────────────────
+story.append(PageBreak())
+story.append(cabecalho_secao("6. Testes via GitHub Codespaces"))
+story.append(Spacer(1, 8))
+story.append(Paragraph(
+    "Alem dos testes locais via CMD, o chatbot foi executado diretamente pelo navegador "
+    "usando o <b>GitHub Codespaces</b> — ambiente VS Code na nuvem integrado ao repositorio. "
+    "Esta etapa comprova que o chatbot funciona em qualquer ambiente, sem depender de "
+    "instalacao local.",
+    corpo_style))
+story.append(Spacer(1, 8))
+story.append(caixa_destaque(
+    "Ambiente: GitHub Codespaces (literate lamp) | Repositorio: silasluiz96-alt/DOT-Project | "
+    "Branch: main | Sistema: Linux (Ubuntu) no navegador",
+    bg=AZUL_CLARO, fg=AZUL))
+story.append(Spacer(1, 10))
+
+story.append(Paragraph("Teste 5 — Conceitos Basicos de Python para Iniciantes", corpo_bold_style))
+story.append(Spacer(1, 5))
+story.append(Paragraph(
+    "Neste teste foi avaliada a capacidade do chatbot de orientar um aluno iniciante, "
+    "listando os principais conceitos de Python com exemplos de codigo para cada topico. "
+    "O chatbot estruturou uma resposta didatica cobrindo 7 conceitos fundamentais.",
+    corpo_style))
+story.append(Spacer(1, 5))
+story.append(Paragraph("Pergunta enviada ao chatbot:", label_style))
+story.append(bloco_codigo(
+    "Sou um aluno aprendendo Python, quais os principais conceitos que devo ver primeiro?"
+))
+story.append(Spacer(1, 5))
+story.append(Paragraph("Resumo da resposta gerada:", label_style))
+story.append(bloco_codigo(
+    "1. Sintaxe Basica — variaveis, funcoes, operadores\n"
+    "   nome = 'Joao'\n"
+    "   print('Ola, ' + nome)\n\n"
+    "2. Tipos de Dados — int, float, str, list, tuple, dict\n"
+    "   numero = 10 | decimal = 10.5 | lista = [1,2,3]\n\n"
+    "3. Estruturas de Controle — if, else, for, while\n"
+    "   if idade >= 18: print('Maior de idade')\n\n"
+    "4. Funcoes — def, parametros, return\n"
+    "   def somar(a, b): return a + b\n\n"
+    "5. Classes e Objetos — POO, heranca, polimorfismo\n"
+    "   class Pessoa: def __init__(self, nome, idade): ...\n\n"
+    "6. Excecoes — try, except, tratamento de erros\n"
+    "   try: x = 10/0 except ZeroDivisionError: print('Erro!')\n\n"
+    "7. Manipulacao de Arquivos — open, read, write, close\n"
+    "   arquivo = open('arquivo.txt', 'w')"
+))
+story.append(Spacer(1, 5))
+story.append(caixa_destaque(
+    "Resultado: O chatbot respondeu de forma estruturada e didatica, "
+    "cobrindo 7 conceitos essenciais com exemplos de codigo para cada um.",
+    bg=VERDE_CLARO, fg=VERDE))
+story.append(Spacer(1, 14))
+
+story.append(Paragraph("Teste 6 — Python para Calculo Numerico e Series de Taylor", corpo_bold_style))
+story.append(Spacer(1, 5))
+story.append(Paragraph(
+    "Neste teste foi verificado se o chatbot consegue conectar o aprendizado de Python "
+    "com aplicacoes matematicas avancadas. A pergunta abordou Calculo Numerico e Series de Taylor, "
+    "demonstrando continuidade tematica com os testes anteriores realizados via CMD.",
+    corpo_style))
+story.append(Spacer(1, 5))
+story.append(Paragraph("Pergunta enviada ao chatbot:", label_style))
+story.append(bloco_codigo(
+    "posso usar python para aprender calculo numerico?\n"
+    "E equacoes como series de Taylor?"
+))
+story.append(Spacer(1, 5))
+story.append(Paragraph("Codigo gerado pelo chatbot:", label_style))
+story.append(bloco_codigo(
+    "import math\n\n"
+    "def calculate_taylor_approximation(x, n):\n"
+    "    result = 0\n"
+    "    for i in range(n):\n"
+    "        coeff = (-1) ** i\n"
+    "        num = x ** (2 * i + 1)\n"
+    "        denom = math.factorial(2 * i + 1)\n"
+    "        result += (coeff) * (num / denom)\n"
+    "    return result\n\n"
+    "x = 1.0\n"
+    "print(calculate_taylor_approximation(x, 10))  # Aprox. de sin(1.0)"
+))
+story.append(Spacer(1, 5))
+story.append(Paragraph(
+    "O chatbot explicou que Python e ideal para Calculo Numerico graças as bibliotecas "
+    "<b>NumPy</b>, <b>SciPy</b> e <b>matplotlib</b>, e implementou a aproximacao de "
+    "sin(x) usando os primeiros n termos da Serie de Taylor — tecnica classica de "
+    "Analise Numerica ensinada em cursos de Engenharia e Matematica.",
+    corpo_style))
+story.append(Spacer(1, 5))
+story.append(caixa_destaque(
+    "Resultado: O chatbot demonstrou dominio de Series de Taylor e sua implementacao "
+    "numerica em Python — confirmando capacidade avancada de raciocinio matematico.",
+    bg=VERDE_CLARO, fg=VERDE))
+story.append(Spacer(1, 14))
+
+# ─── SEÇÃO 7 — ENCERRAMENTO ───────────────────────────────────────────────────
+story.append(cabecalho_secao("7. Encerramento da Sessao e Conclusao"))
 story.append(Spacer(1, 8))
 story.append(bloco_codigo(
+    "# Sessao CMD (Windows 11)\n"
     "Voce: sair\n"
     "Encerrando o chatbot. Ate logo!\n\n"
-    "C:\\Users\\silas\\OneDrive\\Desktop\\dot-backend-test\\q2_chatbot>"
+    "# Sessao Codespaces (navegador)\n"
+    "@silasluiz96-alt -> /workspaces/DOT-Project/q2_chatbot (main) $ python main.py\n"
+    "=== Chatbot Python ===\n"
+    "..."
 ))
 story.append(Spacer(1, 10))
 
@@ -546,7 +647,8 @@ resumo = [
     ["Historico de conversa entre mensagens", "APROVADO"],
     ["Respostas em portugues brasileiro", "APROVADO"],
     ["Segredo (API Key) protegido via .env", "APROVADO"],
-    ["4 testes com Calculo Numerico avancado", "APROVADO"],
+    ["4 testes via CMD com Calculo Numerico avancado", "APROVADO"],
+    ["2 testes via GitHub Codespaces (navegador)", "APROVADO"],
     ["Codigo explicado e didatico", "APROVADO"],
     ["README com instrucoes completas", "APROVADO"],
 ]
